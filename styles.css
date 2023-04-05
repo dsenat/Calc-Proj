@@ -1,0 +1,30 @@
+.calculator {
+    display: grid;
+    background-color: black;
+    height: 700px;
+    width: 700px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-gap: 10px;
+}
+
+/* .calculator {
+    display: grid;
+    background-color: black;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-gap: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 300px;
+    height: 300px;
+    font-size: 24px;
+  } */
+
+  /* .display {
+    grid-column: 1 / -1;
+    text-align: right;
+    padding: 10px;
+    font-size: 36px;
+  } */
