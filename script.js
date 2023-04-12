@@ -1,42 +1,103 @@
-const display = document.querySelector(".display")
+//Set my dom elements
+const display = document.querySelector('.display');
+const numberButtons = document.querySelectorAll('.number');
+const operatorButtons = document.querySelectorAll('.operator');
+const clearButton = document.querySelector('#clear');
+const decimalButton = document.querySelector('#decimal');
+const equalsButton = document.querySelector('#equals');
 
-const numbers = document.querySelectorAll(".number")
+//set my variables to a string
+let firstNum = ''
+let secondNum = ''
+let currentOperator = ''
+let result = null
+let resetDisplay = false
 
-const operators = document.querySelectorAll(".operator")
+//My functions
+//Reset calculator function
+function resetCalculator() {
+    firstNum = ''
+    secondNum = ''
+    currentOperator = ''
+    result = null
+    resetDisplay = false
+}
+//Add numbers to my display function
+function appendNumber(number) {
+    if (display.value === '0' || resetDisplay) {
+        display.value = number;
+        resetDisplay = false;
+    } else {
+        display.value += number;
+    }
+}
+//My decimal function
+function decimal() {
+    if (resetDisplay) {
+        display.value = '0.';
+        resetDisplay = false;
+        return;
+    }
 
-const clear = document.querySelector("#clear-btn")
+    if (display.value.includes('.')) return;
 
-const equal = document.querySelector("#equal-btn")
+    display.value += '.';
+}
+//The chosen operator function
+function chosenOperator(operator) {
+    if (currentOperator && !resetDisplay) {
+        calculate();
+    }
 
+    currentOperator = operator;
+    firstNum = display.value;
+    resetDisplay = true;
+}
+// Perform calculations functions
+function calculate() {
+    if (!currentOperator || resetDisplay) return;
 
-let firstNum = null
-let secondNum = null
-let operator = null
+    secondNum = display.value;
+    switch (currentOperator) {
+        case '+':
+            result = Number(firstNum) + Number(secondNum);
+            break;
+        case '-':
+            result = Number(firstNum) - Number(secondNum);
+            break;
+        case '*':
+            result = Number(firstNum) * Number(secondNum);
+            break;
+        case '/':
+            result = Number(firstNum) / Number(secondNum);
+            break;
+        default:
+            return;
+    }
 
-// // create a loop for all my buttons
-numbers.forEach((number) => {
-    number.addEventListener("click", () => {
-        if (operator === null) {
-            firstNum = display.value + number.value
-            display.value = firstNum
-        } else {
-            secondNum = display.value + number.value
-            display.value = secondNum
-        }
-    })
-})
+    display.value = result;
+    currentOperator = '';
+    resetDisplay = true;
+}
 
-operators.forEach((operator) => {
-    operator.addEventListener("click", () => {
-        operator = operator.value + display.value
-    })
-})
+//My loops for each button
+numberButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        appendNumber(button.textContent);
+    });
+});
 
+operatorButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        chosenOperator(button.textContent);
+    });
+});
 
+equalsButton.addEventListener('click', calculate);
 
-// // create a loop for all buttons
-// addButton.addEventListener("click",(e) => {
-// console.log(e)
-// display.innertText += e.target.value
-// })
+clearButton.addEventListener('click', () => {
+    display.value = '0';
+    resetCalculator();
+});
 
+decimalButton.addEventListener('click', decimal);
